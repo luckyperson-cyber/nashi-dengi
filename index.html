@@ -219,8 +219,7 @@ const MS=['янв','фев','мар','апр','май','июн','июл','авг
 const WHO={v:'Вика',p:'Паша'};
 const now=new Date();
 const curMonth=now.getFullYear()+'-'+pad(now.getMonth()+1);
-const since=(()=>{const d=new Date(now.getFullYear(),now.getMonth()-13,1);return ymd(d)})();
-const sinceMonth=since.slice(0,7);
+const since='2000-01-01';
 
 const S={db:null,cats:new Map(),txA:new Map(),txB:new Map(),k:'e',w:mem('w')==='p'?'p':'v',sv:'in',cat:null,sh:false,
   edit:false,tab:'add',scope:'all',month:curMonth,limEdit:null,busy:false,catsOk:false,txOk:false};
@@ -309,7 +308,8 @@ function renderSum(){
   const list=visible(),bm=monthsMap(list),cur=bm[S.month]||{i:0,e:0};
   const [yy,mm]=S.month.split('-').map(Number);
   $('#mlabel').textContent=MON[mm-1]+' '+yy;
-  $('#pm').disabled=S.month<=sinceMonth;$('#nm').disabled=S.month>=curMonth;
+  const firstMonth=Object.keys(bm).sort()[0]||curMonth;
+  $('#pm').disabled=S.month<=firstMonth;$('#nm').disabled=S.month>=curMonth;
   const net=cur.i-cur.e;let yi=0,ye=0;for(const k in bm)if(k.slice(0,4)===String(yy)){yi+=bm[k].i;ye+=bm[k].e}
   const hasAny=list.length>0;
   let h='<div class="tiles"><div class="tile"><span class="label">Доход</span><b class="inc">'+rub(cur.i)+'</b></div>'
