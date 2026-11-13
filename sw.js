@@ -1,5 +1,5 @@
 /* Офлайн-режим: сначала сеть, при её отсутствии - сохранённая копия страницы. Данные пользователя здесь не кэшируются, они лежат в localStorage. */
-const CACHE = 'nashi-dengi-shell-v1';
+const CACHE = 'nashi-dengi-shell-v2';
 const SHELL = ['./', './index.html', './manifest.webmanifest', './icon.svg'];
 
 self.addEventListener('install', (e) => {
@@ -17,7 +17,7 @@ self.addEventListener('fetch', (e) => {
   const req = e.request;
   if (req.method !== 'GET' || new URL(req.url).origin !== location.origin) return;
   e.respondWith(
-    fetch(req)
+    fetch(req, { cache: 'no-store' })
       .then((res) => {
         const copy = res.clone();
         caches.open(CACHE).then((c) => c.put(req, copy));
